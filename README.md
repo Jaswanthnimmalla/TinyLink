@@ -221,37 +221,6 @@ CREATE TABLE links (
 - ✅ System status endpoint
 - ✅ Database connectivity check
 
-## 🌐 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Add environment variables:
-    - `DATABASE_URL` - Your PostgreSQL connection string
-    - `NEXT_PUBLIC_BASE_URL` - Your production URL
-4. Deploy!
-
-### Other Platforms
-
-1. Build the application:
-```bash
-npm run build
-```
-
-2. Set environment variables
-
-3. Initialize database:
-```bash
-npm run db:init
-```
-
-4. Start the production server:
-
-```bash
-npm start
-```
-
 ## 📊 Usage Examples
 
 ### Create a short link (cURL)
@@ -312,12 +281,57 @@ MIT License - feel free to use this project for personal or commercial purposes.
 - Database with [Drizzle ORM](https://orm.drizzle.team)
 - Validation with [Zod](https://zod.dev)
 
-## 📚 Documentation
+## Screenshots
 
-- [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - Detailed project structure
-- [FEATURES_IMPLEMENTED.md](FEATURES_IMPLEMENTED.md) - Complete feature list
-- [STRUCTURE_SUMMARY.md](STRUCTURE_SUMMARY.md) - Quick reference
+### Homepage
 
----
+![Homepage](https://example.com/homepage.png)
 
-**Built with ❤️ using Next.js 16, TypeScript, and Tailwind CSS v4**
+### Dashboard
+
+![Dashboard](https://example.com/dashboard.png)
+
+### Stats Page
+
+![Stats Page](https://example.com/stats-page.png)
+
+## Deployment Guides
+
+### Deploy to Vercel
+
+1. Sign up at [vercel.com](https://vercel.com)
+2. Create a new project
+3. Import your repository
+4. Configure environment variables
+5. Deploy!
+
+### Deploy to Railway
+
+1. Sign up at [railway.app](https://railway.app)
+2. Create a new project
+3. Import your repository
+4. Configure environment variables
+5. Deploy!
+
+### Deploy to Render
+
+1. Sign up at [render.com](https://render.com)
+2. Create a new project
+3. Import your repository
+4. Configure environment variables
+5. Deploy!
+
+## Troubleshooting
+
+### Common Issues
+
+- **Database connection failed**: Check your database credentials and connection string.
+- **Port already in use**: Use a different port or stop the process using the port.
+- **Build errors**: Clear the cache and reinstall dependencies.
+
+### Solutions
+
+1. **Database connection failed**: Verify your database credentials and connection string.
+2. **Port already in use**: Use a different port or stop the process using the port.
+3. **Build errors**: Clear the cache and reinstall dependencies.
+
