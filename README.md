@@ -1,36 +1,323 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TinyLink - URL Shortener
 
-## Getting Started
+> ✅ **Status**: All core features implemented and production-ready!
 
-First, run the development server:
+A modern, fast, and simple URL shortening service built with Next.js 16, TypeScript, Tailwind CSS,
+and PostgreSQL.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 🔗 Create short, memorable links (6-8 alphanumeric codes)
+- 📊 Track click analytics with timestamps
+- 🎨 Beautiful, modern UI with Tailwind CSS v4
+- ⚡ Lightning-fast performance with Next.js App Router
+- 🔒 Secure with URL validation and unique code enforcement
+- 📱 Fully responsive design
+- 🎯 Custom short codes (optional)
+- ❌ Delete links with immediate 404 response
+- 🔍 Search and filter functionality
+- 💚 Health check endpoint with database monitoring
+
+## 🏗️ Project Structure
+
+```
+tinylink/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/               # API routes
+│   │   │   ├── links/        # Link CRUD operations
+│   │   │   └── redirect/     # Redirect handler
+│   │   ├── code/[code]/      # Link statistics page
+│   │   ├── [code]/           # Dynamic redirect page
+│   │   ├── healthz/          # Health check endpoint
+│   │   ├── dashboard/        # Dashboard page
+│   │   ├── layout.tsx        # Root layout
+│   │   └── page.tsx          # Home page
+│   ├── components/            # React components (14 total)
+│   │   ├── Layout/           # Header, Footer, Container
+│   │   ├── Dashboard/        # LinkTable, AddLinkForm, etc.
+│   │   ├── UI/               # Button, Input, Modal, etc.
+│   │   └── Stats/            # StatsOverview, ClickChart
+│   ├── lib/                  # Utilities and config
+│   │   ├── db.ts            # Database connection
+│   │   ├── schema.ts        # Drizzle ORM schema
+│   │   ├── utils.ts         # Helper functions
+│   │   └── validation.ts    # Zod schemas
+│   └── types/                # TypeScript types
+├── scripts/                   # Utility scripts
+│   └── init-db.ts           # Database initialization
+└── public/                   # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18+
+- PostgreSQL database
+- npm/yarn/pnpm
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/tinylink.git
+cd tinylink
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
 
-## Deploy on Vercel
+Edit `.env` and add your database URL:
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/tinylink
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Initialize the database:
+```bash
+npm run db:init
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Run the development server:
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000)
+
+## 📦 Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Database**: PostgreSQL
+- **ORM**: Drizzle ORM
+- **Validation**: Zod
+- **Icons**: Lucide React
+
+## 🔧 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run db:init` - Initialize database
+
+## 📝 API Endpoints
+
+### Links Management
+
+- `POST /api/links` - Create new link
+    - Body: `{ url: string, customCode?: string }`
+    - Returns: `201` with link data, `409` if code exists, `400` for validation errors
+
+- `GET /api/links` - Get all links
+    - Returns: `200` with array of links
+
+- `GET /api/links/:code` - Get link stats by code
+    - Returns: `200` with link data, `404` if not found
+
+- `DELETE /api/links/:code` - Delete a link
+    - Returns: `200` on success, `404` if not found
+
+### Redirection
+
+- `GET /api/redirect/:code` - Redirect and track click
+    - Returns: `302` redirect, `404` if not found
+    - Increments click count and updates last clicked timestamp
+
+- `GET /:code` - Short URL redirect page
+    - Returns: `302` redirect or `404` page
+
+### Monitoring
+
+- `GET /healthz` - Health check
+    - Returns: `200` if healthy, `503` if database unavailable
+    - Response: `{ ok: boolean, version: string, timestamp: string, database: {...} }`
+
+## 🎨 Pages
+
+### Homepage (`/`)
+
+- URL shortening form
+- Custom code input (optional)
+- Success message with copy button
+- Feature highlights
+- Link to dashboard
+
+### Dashboard (`/dashboard`)
+
+- Statistics overview (Total Links, Total Clicks, Average)
+- Add new link form
+- Links table with:
+    - Short code with copy button
+    - Target URL with external link indicator
+    - Total clicks
+    - Last clicked timestamp
+    - View stats button
+    - Delete button
+- Search/filter by code or URL
+
+### Stats Page (`/code/:code`)
+
+- Short URL display with copy button
+- Original URL (clickable)
+- Total clicks (large display)
+- Created date/time
+- Last clicked date/time
+- Back navigation
+
+## 🗄️ Database Schema
+
+```sql
+CREATE TABLE links (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  code TEXT NOT NULL UNIQUE,
+  url TEXT NOT NULL,
+  clicks INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_clicked_at TIMESTAMP
+);
+```
+
+## ✅ Core Features Implementation
+
+### 1. URL Shortening
+
+- ✅ Generate 6-8 alphanumeric codes `[A-Za-z0-9]{6,8}`
+- ✅ Support custom codes
+- ✅ Validate URLs before saving (http/https only)
+- ✅ Unique code enforcement (returns 409 if exists)
+
+### 2. Redirection System
+
+- ✅ HTTP 302 redirects
+- ✅ Click counting (atomic increments)
+- ✅ Last clicked timestamp
+
+### 3. Dashboard
+
+- ✅ List all shortened links
+- ✅ View click statistics
+- ✅ Add/delete links
+- ✅ Search and filter
+
+### 4. Statistics
+
+- ✅ Individual link stats page
+- ✅ Total clicks tracking
+- ✅ Last accessed time
+
+### 5. Health Monitoring
+
+- ✅ System status endpoint
+- ✅ Database connectivity check
+
+## 🌐 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variables:
+    - `DATABASE_URL` - Your PostgreSQL connection string
+    - `NEXT_PUBLIC_BASE_URL` - Your production URL
+4. Deploy!
+
+### Other Platforms
+
+1. Build the application:
+```bash
+npm run build
+```
+
+2. Set environment variables
+
+3. Initialize database:
+```bash
+npm run db:init
+```
+
+4. Start the production server:
+
+```bash
+npm start
+```
+
+## 📊 Usage Examples
+
+### Create a short link (cURL)
+
+```bash
+# With auto-generated code
+curl -X POST http://localhost:3000/api/links \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/very/long/url"}'
+
+# With custom code
+curl -X POST http://localhost:3000/api/links \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/page", "customCode": "mycode"}'
+```
+
+### Get all links
+
+```bash
+curl http://localhost:3000/api/links
+```
+
+### Delete a link
+
+```bash
+curl -X DELETE http://localhost:3000/api/links/abc123
+```
+
+### Check health
+
+```bash
+curl http://localhost:3000/healthz
+```
+
+## 🧪 Testing
+
+According to the specification, the following should be verified:
+
+1. ✅ `/healthz` returns 200
+2. ✅ Creating a link works; duplicate codes return 409
+3. ✅ Redirect works and increments click count
+4. ✅ Deletion stops redirect (404)
+5. ✅ UI meets expectations (layout, states, form validation, responsiveness)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+MIT License - feel free to use this project for personal or commercial purposes.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org)
+- Styled with [Tailwind CSS](https://tailwindcss.com)
+- Icons by [Lucide](https://lucide.dev)
+- Database with [Drizzle ORM](https://orm.drizzle.team)
+- Validation with [Zod](https://zod.dev)
+
+## 📚 Documentation
+
+- [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - Detailed project structure
+- [FEATURES_IMPLEMENTED.md](FEATURES_IMPLEMENTED.md) - Complete feature list
+- [STRUCTURE_SUMMARY.md](STRUCTURE_SUMMARY.md) - Quick reference
+
+---
+
+**Built with ❤️ using Next.js 16, TypeScript, and Tailwind CSS v4**
