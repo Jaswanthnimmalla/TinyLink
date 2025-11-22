@@ -20,6 +20,12 @@ const config: Config = {
         // xl: '1280px' - default
         // 2xl: '1536px' - default
       },
+      borderWidth: {
+        '3': '3px',
+        '4': '4px',
+        '5': '5px',
+        '6': '6px',
+      },
     },
   },
   plugins: [],

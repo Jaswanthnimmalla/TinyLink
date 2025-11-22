@@ -1,18 +1,59 @@
-# TinyLink 🔗
+<div align="center">
+  <h1 style="font-size: 3em; font-weight: 900; background: linear-gradient(to right, #3B82F6, #6366F1, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TinyLink</h1>
 
-A modern, fast, and beautiful URL shortener built with Next.js 16, React 19, and PostgreSQL.
+  <p style="font-size: 1.2em; color: #6B7280; margin: 20px 0;">A modern, fast, and beautiful URL shortener</p>
 
-## Features ✨
+  <br/>
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
+
+</div>
+
+# TinyLink - URL Shortener
+
+> A modern, beautiful URL shortening service with real-time analytics and attractive UI design
+
+## Recent Enhancements
+
+**Complete Visual Redesign** - Every container, card, and component now features:
+
+- **Attractive Gradient Borders** with animated color effects
+- **Vibrant Color Schemes** throughout the application
+- **Enhanced Shadows & Glows** for depth and modern look
+- **Smooth Animations** on all interactive elements
+- **Improved Components** with gradient backgrounds and borders
+
+See [STYLING_ENHANCEMENTS.md](./STYLING_ENHANCEMENTS.md) for detailed documentation of all visual
+improvements.
+
+## Features
 
 - **URL Shortening**: Convert long URLs into short, shareable links
 - **Custom Codes**: Create custom short codes or use auto-generated ones
 - **Analytics Dashboard**: Track link clicks, view statistics, and monitor performance
 - **Click Tracking**: Monitor individual link performance with detailed analytics
+- **Statistics Overview**: Comprehensive analytics with charts and insights
 - **Responsive Design**: Beautiful UI that works seamlessly on all devices
 - **Real-time Updates**: Instant feedback and live statistics
+- **Navigation System**: Complete navigation with Home, Dashboard, Statistics, Settings, and Help
+  pages
+- **Modern Logo**: Simple, text-based gradient logo design
 - **Health Monitoring**: Built-in health check endpoint
 
-## Tech Stack 🛠️
+## Pages
+
+- **Home** (`/`) - URL shortening interface with form
+- **Dashboard** (`/dashboard`) - Manage and view all your links
+- **Statistics** (`/statistics`) - Comprehensive analytics overview
+- **Get Started** (`/get-started`) - Quick start guide and tutorials
+- **Settings** (`/settings`) - Customize your preferences
+- **Help** (`/help`) - FAQs and support information
+- **Analytics Detail** (`/code/[code]`) - Individual link analytics
+
+## Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org/) with App Router
 - **UI Library**: [React 19](https://react.dev/)

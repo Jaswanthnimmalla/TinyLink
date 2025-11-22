@@ -1,0 +1,19 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="logoTextGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#6366F1;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- Modern Text Logo -->
+    <text x="10" y="42" font-family="Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="36" font-weight="800" fill="url(#logoTextGradient)" letter-spacing="-1">
+        TinyLink
+    </text>
+
+    <!-- Subtle underline accent -->
+    <rect x="10" y="50" width="60" height="3" rx="1.5" fill="url(#logoTextGradient)"
+        opacity="0.6" />
+</svg>
