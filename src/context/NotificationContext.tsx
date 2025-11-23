@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode, useRef } fro
 
 export interface Notification {
   id: string;
-  type: 'click' | 'milestone' | 'expiring' | 'info';
+  type: 'click' | 'success' | 'warning' | 'milestone' | 'expiring' | 'error' | 'info';
   title: string;
   message: string;
   linkCode?: string;
@@ -35,7 +35,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Set connected status
     setIsConnected(true);
-    console.log('🔔 Notification system initialized - Polling every 10 seconds');
+    console.log('🔔 Notification system initialized - Polling every 3 seconds');
 
     // Function to fetch new notifications
     const fetchNotifications = async () => {
@@ -112,19 +112,14 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     // Initial fetch
     console.log('🚀 Running initial notification check...');
     fetchNotifications();
-
-    // Poll every 10 seconds
-    const interval = setInterval(() => {
-      console.log('⏰ Running scheduled notification check...');
-      fetchNotifications();
-    }, 10000); // 10 seconds
-
-    console.log('✅ Notification polling started (every 10 seconds)');
-
-    // Cleanup
+    
+    // Poll every 3 seconds for real-time feel
+    const interval = setInterval(fetchNotifications, 3000); 
+    console.log('✅ Notification polling started (every 3 seconds)');
+    
     return () => {
-      console.log('🛑 Notification polling stopped');
       clearInterval(interval);
+      console.log('🔕 Notification polling stopped');
     };
   }, []);
 

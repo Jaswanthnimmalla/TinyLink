@@ -310,49 +310,6 @@ export default function Home() {
                 </div>
               )}
               
-              {livePreview && (
-                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-lg sm:rounded-xl p-4 animate-fade-in">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0">
-                      <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
-                        <Link2 className="h-5 w-5 text-white" />
-                      </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="text-sm font-semibold text-gray-700">Link Preview:</p>
-                        {customCode && (
-                          <div className="flex items-center gap-1.5">
-                            {checkingAvailability ? (
-                              <>
-                                <div className="h-4 w-4 border-2 border-gray-400/30 border-t-gray-600 rounded-full animate-spin"></div>
-                                <span className="text-xs text-gray-500">Checking...</span>
-                              </>
-                            ) : codeAvailable === true ? (
-                              <>
-                                <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-green-700 font-semibold">Available </span>
-                              </>
-                            ) : codeAvailable === false ? (
-                              <>
-                                <div className="h-2 w-2 bg-red-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-red-700 font-semibold">Already taken </span>
-                              </>
-                            ) : null}
-                          </div>
-                        )}
-                      </div>
-                      <p className="text-base sm:text-lg font-mono font-bold text-indigo-700 break-all">
-                        {livePreview}
-                      </p>
-                      {!customCode && (
-                        <p className="text-xs text-gray-500 mt-1">Random code will be generated</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              
               {shortUrl && (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 p-4 sm:p-6 rounded-lg sm:rounded-xl animate-scale-in shadow-md">
                   <div className="flex items-center gap-2 mb-2 sm:mb-3">

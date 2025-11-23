@@ -168,6 +168,27 @@ export async function POST(request: NextRequest) {
       tags: linkTagsData.map(t => ({ id: t.tagId, name: t.tagName, color: t.tagColor }))
     };
     
+    // Emit notification for link creation
+    try {
+      await fetch(`${request.nextUrl.origin}/api/notifications/emit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'success',
+          title: '✅ Link Created!',
+          message: `Short link /${code} created successfully`,
+          linkCode: code,
+          data: {
+            url: validated.url,
+            hasPassword: !!hashedPassword,
+            hasExpiration: !!expiresAt,
+          }
+        })
+      });
+    } catch (notifError) {
+      console.log('Notification emit failed:', notifError);
+    }
+    
     return NextResponse.json(linkWithTags, { status: 201 });
   } catch (error) {
     console.error('Error creating link:', error);
@@ -183,5 +204,61 @@ export async function POST(request: NextRequest) {
       { error: 'Failed to create link' },
       { status: 500 }
     );
+  }
+}
+
+// DELETE - Delete multiple links
+export async function DELETE(request: NextRequest) {
+  try {
+    const { ids } = await request.json();
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ error: 'No IDs provided' }, { status: 400 });
+    }
+
+    // Get link codes before deleting for notification
+    const linksToDelete = await db
+      .select({ code: links.code })
+      .from(links)
+      .where(eq(links.id, ids[0])); // Get first one for notification
+
+    // Delete link-tag relationships first
+    for (const id of ids) {
+      await db.delete(linkTags).where(eq(linkTags.linkId, id));
+    }
+
+    // Delete links
+    for (const id of ids) {
+      await db.delete(links).where(eq(links.id, id));
+    }
+
+    // Emit notification for link deletion
+    if (linksToDelete.length > 0) {
+      try {
+        await fetch(`${request.nextUrl.origin}/api/notifications/emit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'warning',
+            title: '🗑️ Link Deleted',
+            message: ids.length > 1 
+              ? `${ids.length} links deleted successfully`
+              : `Link /${linksToDelete[0].code} deleted successfully`,
+            data: {
+              count: ids.length,
+            }
+          })
+        });
+      } catch (notifError) {
+        console.log('Notification emit failed:', notifError);
+      }
+    }
+
+    return NextResponse.json({ 
+      message: `${ids.length} link(s) deleted successfully` 
+    });
+  } catch (error) {
+    console.error('Error deleting links:', error);
+    return NextResponse.json({ error: 'Failed to delete links' }, { status: 500 });
   }
 }

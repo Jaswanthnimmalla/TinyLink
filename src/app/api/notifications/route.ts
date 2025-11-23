@@ -8,12 +8,26 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const since = searchParams.get('since');
     
-    // Get recent clicks (last 5 minutes by default)
+    // Get recent notifications (last 5 minutes by default)
     const sinceDate = since 
       ? new Date(since) 
       : new Date(Date.now() - 5 * 60 * 1000); // 5 minutes ago
 
-    // Get recent clicks with link information
+    // Fetch emitted notifications (link created, deleted, etc.)
+    let emittedNotifications = [];
+    try {
+      const emitResponse = await fetch(
+        `${new URL(request.url).origin}/api/notifications/emit?since=${sinceDate.toISOString()}`
+      );
+      if (emitResponse.ok) {
+        const emitData = await emitResponse.json();
+        emittedNotifications = emitData.notifications || [];
+      }
+    } catch (error) {
+      console.error('Error fetching emitted notifications:', error);
+    }
+
+    // Fetch click notifications from database
     const recentClicks = await db
       .select({
         id: clicks.id,
@@ -31,11 +45,11 @@ export async function GET(request: Request) {
       .orderBy(desc(clicks.clickedAt))
       .limit(20);
 
-    // Transform into notifications format
-    const notifications = recentClicks.map((click) => ({
-      id: `notif-${click.id}`,
+    // Transform click notifications
+    const clickNotifications = recentClicks.map((click) => ({
+      id: `notif-click-${click.id}`,
       type: 'click',
-      title: 'New Click!',
+      title: '🔗 New Click!',
       message: `Your link /${click.linkCode} was just clicked`,
       linkCode: click.linkCode,
       data: {
@@ -47,10 +61,19 @@ export async function GET(request: Request) {
       read: false,
     }));
 
+    // Combine all notifications and sort by timestamp
+    const allNotifications = [...emittedNotifications, ...clickNotifications].sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
     return NextResponse.json({
-      notifications,
-      count: notifications.length,
+      notifications: allNotifications,
+      count: allNotifications.length,
       since: sinceDate.toISOString(),
+      breakdown: {
+        emitted: emittedNotifications.length,
+        clicks: clickNotifications.length,
+      }
     });
   } catch (error) {
     console.error('Error fetching notifications:', error);

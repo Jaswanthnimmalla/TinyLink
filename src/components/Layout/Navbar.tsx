@@ -30,16 +30,46 @@ export default function Navbar() {
 
   return (
     <header className="glass sticky top-0 z-50 border-b-2 border-white/30 shadow-xl backdrop-blur-xl">
-      <nav className="container mx-auto px-3 sm:px-4 lg:px-6">
+      <nav className="container mx-auto px-3 sm:px-4 lg:px-6 relative">
         <div className="flex justify-between items-center py-3 sm:py-4">
-          {/* Logo Section - Simple Text Logo */}
-          <Link href="/" className="flex items-center group">
+          {/* Logo Section - Fixed to Far Left Corner */}
+          <Link href="/" className="flex items-center group fixed left-0 z-[60]">
+            {/* Logo Icon - Link/Chain Symbol */}
+            <svg 
+              className="h-8 w-8 mr-2 text-indigo-600 group-hover:text-purple-600 transition-colors duration-300" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Modern Link Icon */}
+              <path 
+                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="group-hover:stroke-[3]"
+              />
+              <path 
+                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="group-hover:stroke-[3]"
+              />
+            </svg>
+            
+            {/* Text Logo */}
             <span className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 bg-clip-text text-transparent hover:from-indigo-500 hover:via-purple-500 hover:to-purple-600 transition-all duration-300" style={{ letterSpacing: '-0.02em' }}>
               TinyLink
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Spacer */}
+          <div className="flex-1"></div>
+
+          {/* Desktop Navigation - Moved to Right */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
             {navLinks.map((link) => {
               const Icon = link.icon;
